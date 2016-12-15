@@ -6,8 +6,12 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
-    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nick121212/crawler-schedule.git"
+    },
+    "author": "NICK",
+    "license": "MIT",
     "devDependencies": {
         "babel-core": "^6.0.20",
         "babel-plugin-syntax-async-functions": "^6.8.0",
