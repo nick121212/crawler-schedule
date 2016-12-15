@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { mqFunc } from "../../crawler-common";
+import { mqFunc } from "crawler-common";
 
 export default async(config, queueConfig) => {
     let mq = await mqFunc(config);
