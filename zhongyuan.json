@@ -1,0 +1,156 @@
+{
+    "domainWhiteList": ["sh.centanet.com"],
+    "whitePathList": [
+        { "regexp": "/^\\/ershoufang(?:\\/\\D+|\\/.+\\.html|)(?:|\\/g\\d+)\\/?$/", "scope": "i", "enable": true, "description": "二手房列表,详情" }
+    ],
+    "proxySettings": {
+        "useProxy": false,
+        "timeout": 25000,
+        "charset": "utf-8",
+        "ipInfo": { "host": "10.25.254.241", "port": 8081, "hostname": "10-9-91-122" },
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+    },
+    "pages": [{
+        "key": "ershoufang",
+        "rule": [{ "regexp": "/\\/ershoufang\\/(.*?).html/", "scope": "i" }],
+        "strictFields": ["community"],
+        "areas": [
+            { "dealStrategy": "jsdom", "key": "roomDetail", "selector": ".roomDetail .roominfor dd" }, { "dealStrategy": "jsdom", "key": "baseInfo", "selector": ".roombase-box .roombase-infor .roombase-top .roombase-price" },
+            { "dealStrategy": "jsdom", "key": "moreInfo", "selector": ".roombase-box .roombase-infor .roombase-top .hbase_txt li" }
+        ],
+        "fieldKey": "urlId",
+        "strict": true,
+        "fields": {
+            "none": {
+                "data": [{ "key": "pictures", "selector": ["#listBox ul li"], "removeSelector": [], "data": [{ "key": "url", "selector": ["img"], "removeSelector": [], "methodInfo": { "attr": ["lazysrc"] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "htmlStrategy": "jsdom", "dealStrategy": "array" }]
+            },
+            "roomDetail": {
+                "selector": ".roomDetail .roominfor dd",
+                "dealStrategy": "jsdom",
+                "data": [{ "key": "sellingPoint", "selector": ["h5"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }, { "key": "tags", "selector": [".labeltag span:not(.f999)"], "removeSelector": [], "data": [{ "key": "", "selector": [], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "htmlStrategy": "jsdom", "dealStrategy": "array" }]
+            },
+            "baseInfo": {
+                "selector": ".roombase-box .roombase-infor .roombase-top .roombase-price ",
+                "dealStrategy": "jsdom",
+                "data": [{ "key": "sumPrice", "selector": ["span:eq(0)"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "match": { "regexp": "/\\d+(?:.\\d+|)/", "index": 0 } }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }, { "key": "layout", "selector": ["span:eq(2)"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }, { "key": "sumArea", "selector": ["span:eq(4)"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "match": { "regexp": "/\\d+(?:.\\d+|)/", "index": 0 } }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }]
+            },
+            "moreInfo": {
+                "data": [{ "selector": [], "removeSelector": [], "data": [{ "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "单价", "data": [{ "key": "price", "selector": [".txt_r"], "removeSelector": ["a"], "methodInfo": { "text": [] }, "formats": [{ "match": { "regexp": "/\\d+(?:.\\d+|)/", "index": 0 } }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "朝向", "data": [{ "key": "toward", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "年代", "data": [{ "key": "completingTime", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "楼层", "data": [{ "key": "floor", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "装修", "data": [{ "key": "decoration", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "小区名称", "data": [{ "key": "community", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [] }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "小区地址", "data": [{ "key": "address", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [], "split": { "splitOf": " ", "start": 0, "end": 1 } }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }, { "selector": "p.txt_l", "removeSelector": ["i"], "methodInfo": { "text": [] }, "match": "小区地址", "data": [{ "key": "plate", "selector": [".txt_r"], "removeSelector": [], "methodInfo": { "text": [] }, "formats": [{ "str": [], "split": { "splitOf": " ", "start": 1, "end": 2 } }], "htmlStrategy": "jsdom", "dealStrategy": "normal" }], "dealStrategy": "case" }], "htmlStrategy": "jsdom", "dealStrategy": "switch" }]
+            }
+        },
+        "enabled": true,
+        "needFetch": false,
+        "needSaveToAllIn": true,
+        "checkDiff": false,
+        "checkDiffPath": "",
+        "aliasKey": ""
+    }, {
+        "key": "ershoufang-list",
+        "needSaveToAllIn": false,
+        "needFetch": true,
+        "priority": 9,
+        "rule": [{ "regexp": "/\\/ershoufang(?:\\/\\D+|)(?:|\\/g\\d+)\\/?$/", "scope": "i" }],
+        "strictFields": [],
+        "urls": [{ "regexp": "/\\/ershoufangs\\/\\d+\\/url/", "scope": "i" }],
+        "fieldKey": "urlId",
+        "areas": [
+            { "dealStrategy": "jsdom", "key": "list", "selector": ".house-listBox .house-item" }
+        ],
+        "fields": {
+            "list": {
+                "dealStrategy": "jsdom",
+                "data": [{
+                    "key": "ershoufangs",
+                    "selector": [],
+                    "removeSelector": [],
+                    "data": [{
+                        "key": "url",
+                        "selector": [".item-info .house-title a"],
+                        "removeSelector": [],
+                        "methodInfo": { "prop": ["href"] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "community",
+                        "selector": [".item-info p:eq(0) a:eq(0)"],
+                        "removeSelector": [],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "layout",
+                        "selector": [".item-info p:eq(0) span:eq(0)"],
+                        "removeSelector": [],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "sumArea",
+                        "selector": [".item-info p:eq(0) span:eq(1)"],
+                        "removeSelector": [],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "floor",
+                        "selector": [".item-info p:eq(1)"],
+                        "removeSelector": ["em"],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [], "regexp": { "regexp": "/(中|高|低)层/" } }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "toward",
+                        "selector": [".item-info p:eq(1)"],
+                        "removeSelector": ["em"],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [], "regexp": { "regexp": "/(东|南|西|北)+/" } }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "decoration",
+                        "selector": [".item-info p:eq(1)"],
+                        "removeSelector": ["em"],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [], "regexp": { "regexp": "/(精装|豪装|毛坯|中装|简装)/" } }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "sumPrice",
+                        "selector": [".item-pricearea p:eq(0)"],
+                        "removeSelector": [],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "price",
+                        "selector": [".item-pricearea p:eq(1)"],
+                        "removeSelector": [],
+                        "methodInfo": { "text": [] },
+                        "formats": [{ "str": [] }],
+                        "htmlStrategy": "jsdom",
+                        "dealStrategy": "normal"
+                    }],
+                    "htmlStrategy": "jsdom",
+                    "dealStrategy": "array"
+                }]
+            }
+        },
+        "checkDiff": true,
+        "checkDiffPath": "ershoufangs",
+        "aliasKey": "ershoufang"
+    }],
+    "key": "zhongyuan",
+    "host": "sh.centanet.com",
+    "interval": 3000,
+    "downloader": "phantom",
+    "initDomain": "sh.centanet.com/ershoufang",
+    "description": "中原房产的配置文件",
+    "createdAt": "2016-09-21T04:29:26.000Z",
+    "updatedAt": "2016-11-29T10:08:34.000Z"
+}
