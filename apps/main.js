@@ -1,4 +1,4 @@
-import spa from "../../spa/src";
+import spa from "nspa";
 import mqMiddle from "../middlewares/mq";
 import connMiddle from "../middlewares/connection";
 import queueItemMiddle from "../middlewares/queueitem";
