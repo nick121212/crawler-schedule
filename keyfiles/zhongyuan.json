@@ -149,8 +149,6 @@
     "host": "sh.centanet.com",
     "interval": 3000,
     "downloader": "phantom",
-    "initDomain": "sh.centanet.com/ershoufang",
-    "description": "中原房产的配置文件",
-    "createdAt": "2016-09-21T04:29:26.000Z",
-    "updatedAt": "2016-11-29T10:08:34.000Z"
+    "initDomain": "http://sh.centanet.com/ershoufang",
+    "description": "中原房产的配置文件"
 }

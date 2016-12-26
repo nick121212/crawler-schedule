@@ -1,0 +1,54 @@
+{
+    "initDomain": "http://www.babytree.com/",
+    "key": "babytree",
+    "description": "宝贝树的配置文件",
+    "urlAnalysis": {
+        "queue": {
+            "ignoreWWWDomain": false,
+            "stripWWWDomain": false,
+            "scanSubdomains": false,
+            "host": "www.babytree.com",
+            "initialProtocol": "http",
+            "initialPort": 80,
+            "stripQuerystring": true,
+            "fetchConditions": [],
+            "domainWhiteList": ["www.babytree.com", "home.babytree.com"],
+            "filterByDomain": true
+        },
+        "discover": {
+            "parseHTMLComments": false,
+            "parseScriptTags": false,
+            "allowedProtocols": ["http", "https"],
+            "whitePathList": [{ "regexp": "/(.*?)/", "scope": "i", "enable": true }],
+            "blackPathList": [],
+            "userAgent": "",
+            "fetchWhitelistedMimeTypesBelowMaxDepth": false,
+            "maxDepth": 0,
+            "ignoreRobots": false
+        }
+    },
+    "downloader": {
+        "proxy": {
+            "useProxy": false,
+            "httpProxy": "http://10.25.254.241/8081"
+        },
+        "retry": {
+            "count": 2
+        },
+        "charset": {
+            "charset": "utf-8"
+        },
+        "timeout": {
+            "timeout": 25000
+        }
+    },
+    "downloadAnalysis": {
+
+    },
+    "htmlAnalysis": {
+
+    },
+    "resultStore": {
+
+    }
+}
