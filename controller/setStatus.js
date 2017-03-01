@@ -3,8 +3,6 @@ export default (config) => {
     return async(ctx, next) => {
         let clientId = ctx.context.user.clientId;
 
-        console.log("setStatus", ctx.params);
-
         if (ctx.params.hasOwnProperty("jobs")) {
             if (!ctx.proxy.connections.hasOwnProperty(clientId)) {
                 ctx.proxy.connections[clientId] = ctx.context;

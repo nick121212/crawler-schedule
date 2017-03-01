@@ -7,14 +7,23 @@ export default (config, app) => {
         let qres = await mq.getQueue(_.extend({}, config, { name: config.name + crawlerConfig.key }));
 
         // 绑定路由到queue
-        await qres.ch.bindQueue(qres.q.queue, "amq.topic", `crawler.urls.${crawlerConfig.key}`);
-        // 每次消费1条queue
-        await qres.ch.prefetch(3);
+        await qres.ch.bindQueue(qres.q.queue, "amq.topic", `${config.name}.${crawlerConfig.key}`);
+        // 每次消费N条queue
+        await qres.ch.prefetch(config.prefetch || 3);
 
-        let fn = app.callback();
+        let fn = app.callback((ctx) => {
+            if (ctx.err) {
+                if (~~ctx.errCount < 200) {
+                    return ctx.context.ch.reject(ctx.msg);
+                }
+                ctx.context.ch.ack(ctx.msg);
+            } else {
+                ctx.context.ch.ack(ctx.msg);
+            }
+        });
 
         await qres.ch.consume(qres.q.queue, async(msg) => {
-            fn({
+            await fn({
                 routerKey: "start",
                 context: qres,
                 params: {

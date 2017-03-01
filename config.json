@@ -1,13 +1,15 @@
 {
+    "port": 3005,
     "elastic": {
-        "host": "106.75.78.203",
+        "host": "172.16.140.164",
         "port": 9200
     },
     "mq": {
-        "host": "106.75.78.203",
+        "host": "172.16.140.164",
         "user": "nick",
         "password": "111111",
-        "name": "crawler.urls.",
+        "name": "ff.crawler.urls.",
+        "prefetch": 5,
         "settings": {}
     },
     "schedule": {

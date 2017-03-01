@@ -8,43 +8,13 @@ import http from "http";
 
 import setStatus from "../controller/setStatus";
 
-class MainApp extends spa.Spa {
-    constructor(_maxJobs) {
-        super(_maxJobs);
-    }
-
-    onError(err, ctx) {
-        super.onError(err, ctx);
-        if (err.statusCode !== 607) {
-            console.error(err);
-        }
-    }
-
-    /**
-     * 如果错误的次数大于200次，则丢弃掉消息
-     * 
-     */
-    onComplete(ctx) {
-        super.onComplete(ctx);
-
-        setTimeout(() => {
-            if (ctx.err) {
-                if (~~ctx.errCount < 200) {
-                    return ctx.context.ch.reject(ctx.msg);
-                }
-                ctx.context.ch.ack(ctx.msg);
-            } else {
-                ctx.context.ch.ack(ctx.msg);
-            }
-        }, 1000);
-    }
-}
-
 const initServer = async(spaServer, config) => {
     const serverCompose = new spa.Spa();
 
     spaServer.attachRouteToSocket("setStatus", await setStatus(config));
-    serverCompose.use(spaServer.attach(serverCompose));
+    serverCompose.use(spaServer.attach(serverCompose, () => {
+
+    }));
     serverCompose.use(async(ctx, next) => {
         await next();
     });
@@ -56,7 +26,7 @@ const initServer = async(spaServer, config) => {
 };
 
 export default async(config, crawlerConfig) => {
-    const app = new MainApp();
+    const app = new spa.Spa();
     const server = http.createServer();
 
     app.initServer(config.schedule || {}, server);
@@ -66,12 +36,14 @@ export default async(config, crawlerConfig) => {
     app.use(await queueItemMiddle(config.elastic));
     app.use(callFuncMiddle({ timeout: 30000 }));
     app.use(async(ctx, next) => {
-        if (ctx.queueItem) {
-            console.log(`${ctx.queueItem.url} --  ${ctx.result.storeQueueItem } --complete ${new Date}`);
+        console.log(`crawler-schedule-main.js -- ${ctx.context.retId} -- ${ctx.routerKey} --complete ${new Date()}`);
+        if (ctx.routerKey === "start") {
+            console.log(`crawler-schedule-main.js -- ${ctx.queueItem.url} -- ${ctx.routerKey} --complete ${new Date()}`);
         }
         await next();
     });
+
     app.start(crawlerConfig);
     initApp(config, crawlerConfig, app.spaServer.connections);
-    server.listen(3001);
+    server.listen(config.port);
 };

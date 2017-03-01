@@ -1,18 +1,18 @@
 {
-    "initDomain": "http://www.babytree.com/",
-    "key": "babytree",
-    "description": "宝贝树的配置文件",
+    "initDomain": "http://www.yaolan.com/",
+    "key": "yaolan",
+    "description": "摇篮网的配置文件",
     "urlAnalysis": {
         "queue": {
             "ignoreWWWDomain": false,
             "stripWWWDomain": false,
             "scanSubdomains": false,
-            "host": "www.babytree.com",
+            "host": "www.yaolan.com",
             "initialProtocol": "http",
             "initialPort": 80,
             "stripQuerystring": true,
             "fetchConditions": [],
-            "domainWhiteList": ["www.babytree.com", "home.babytree.com"],
+            "domainWhiteList": ["www.yaolan.com"],
             "filterByDomain": false
         },
         "discover": {

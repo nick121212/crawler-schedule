@@ -1,26 +1,21 @@
 import boom from "boom";
-import _ from "lodash";
+import Promise from "bluebird";
 
 export const callFunc = (conn, params, routerKey, config) => {
     return new Promise((resolve, reject) => {
-        let timeId = 0;
         try {
-            timeId = setTimeout(() => {
-                reject(boom.clientTimeout(conn.socket.id, "---" + conn.jobs + "--timeout--" + config.timeout));
-            }, config.timeout);
-
             conn.socket.clientProxy[routerKey](params).onReady((result) => {
+                console.log("crawler-schedule/middlewares/callfunc.js", routerKey, "返回了数据");
                 if (!result || result.isBoom) {
                     return reject(result || boom.create(609, "没有返回值"));
                 }
-                clearTimeout(timeId);
                 resolve(result);
             });
 
         } catch (err) {
             reject(err);
         }
-    });
+    }).timeout(config.timeout);
 };
 
 export default (config) => {
@@ -29,7 +24,6 @@ export default (config) => {
             queueItem: ctx.queueItem,
             config: ctx.config
         }, ctx.routerKey, config);
-
 
         await next();
     };

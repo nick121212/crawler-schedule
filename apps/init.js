@@ -4,11 +4,7 @@ import callFuncMiddle from "../middlewares/callfunc";
 
 export default (config, crawlerConfig, connections) => {
     let initilize = false;
-    const app = new spa.Compose();
-
-    app.onError = (err) => {
-        console.log(err);
-    };
+    const app = new spa.Spa();
 
     const call = () => {
         if (!initilize) {
@@ -21,6 +17,10 @@ export default (config, crawlerConfig, connections) => {
             }, 1000);
         }
     };
+    app.use(async(ctx, next) => {
+        await next();
+        call();
+    });
     app.use(connMiddle(connections));
     app.use(callFuncMiddle({ timeout: 15000 }));
     app.use(async(ctx, next) => {
@@ -29,9 +29,6 @@ export default (config, crawlerConfig, connections) => {
         }
         await next();
     });
-    app.onComplete = () => {
-        call();
-    };
 
     call();
 };

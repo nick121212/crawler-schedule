@@ -13,7 +13,6 @@ export default (connections) => {
         if (conn) {
             let result = await callFunc(conn, {}, "status", { timeout: 10000 });
 
-            console.log(result);
             if (result.jobs > 1) {
                 ctx.conn = conn;
                 await next();
