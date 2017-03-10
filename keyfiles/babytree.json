@@ -13,7 +13,7 @@
             "stripQuerystring": true,
             "fetchConditions": [],
             "domainWhiteList": ["www.babytree.com", "home.babytree.com"],
-            "filterByDomain": false
+            "filterByDomain": true
         },
         "discover": {
             "parseHTMLComments": false,
