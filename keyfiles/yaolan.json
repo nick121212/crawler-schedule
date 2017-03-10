@@ -13,7 +13,7 @@
             "stripQuerystring": true,
             "fetchConditions": [],
             "domainWhiteList": ["www.yaolan.com"],
-            "filterByDomain": false
+            "filterByDomain": true
         },
         "discover": {
             "parseHTMLComments": false,
