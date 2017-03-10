@@ -6,20 +6,20 @@ export default (config, crawlerConfig, connections) => {
     let initilize = false;
     const app = new spa.Spa();
 
-    const call = () => {
+    const call = async() => {
         if (!initilize) {
+            await app.callback()({
+                config: crawlerConfig,
+                routerKey: "init",
+                context: {}
+            });
             setTimeout(() => {
-                app.callback()({
-                    config: crawlerConfig,
-                    routerKey: "init",
-                    context: {}
-                });
+                call();
             }, 1000);
         }
     };
     app.use(async(ctx, next) => {
         await next();
-        call();
     });
     app.use(connMiddle(connections));
     app.use(callFuncMiddle({ timeout: 15000 }));
